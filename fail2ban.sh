@@ -94,7 +94,10 @@ fi
 #Install
 if [ ${OS} == CentOS ]; then
   yum -y install epel-release
-  yum -y install fail2ban
+  wget https://github.com/fail2ban/fail2ban/archive/0.9.4.tar.gz
+  tar xf fail2ban-0.9.4.tar.gz
+  cd fail2ban-0.9.4
+  python setup.py install
 fi
 
 if [ ${OS} == Ubuntu ] || [ ${OS} == Debian ];then
@@ -125,7 +128,8 @@ EOF
 else
 cat <<EOF >> /etc/fail2ban/jail.local
 [DEFAULT]
-ignoreip = 127.0.0.1
+ignoreip = 192.168.100.34
+#ignoreip = 127.0.0.1
 bantime = 86400
 maxretry = $maxretry
 findtime = 1800
@@ -170,10 +174,5 @@ fi
 if [[ ${OS} =~ ^Ubuntu$|^Debian$ ]]; then
   service ssh restart
 fi
-echo ""
-echo 'Telegram Group: https://t.me/functionclub'
-echo 'Google Puls: https://plus.google.com/communities/113154644036958487268'
-echo 'Github: https://github.com/FunctionClub'
-echo 'QQ Group:277717865'
-
+echo "Fail2ban安装成功"
 echo "Fail2ban is now runing on this server now!"
